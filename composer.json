@@ -1,0 +1,30 @@
+{
+    "require": {
+        "ext-pdo"                     : "*",
+        "ext-curl"                    : "*",
+        "ext-redis"                   : "*",
+        "ext-mongodb"                 : "*",
+        "ext-memcache"                : "*",
+        "ares333/php-curl"            : ">=4.6.1",
+        "mongodb/mongodb"             : ">=1.8.0",
+        "elasticsearch/elasticsearch" : "^7.0",
+        "php-amqplib/php-amqplib"     : ">=3.0",
+        "lustre/php-dfa-sensitive"    : ">=1.4",
+        "yansongda/pay"               : "~3.0.0"
+    },
+    "config" : {
+        "vendor-dir" : "eapi/vendor"
+    },
+    "authors": [
+        {
+            "name": "suruibuas",
+            "email": "317953536@qq.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type" : "composer",
+            "url"  : "https://mirrors.aliyun.com/composer/"
+        }
+    ]
+}

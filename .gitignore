@@ -1,0 +1,4 @@
+.idea/
+.htaccess
+composer.lock
+nginx.htaccess
