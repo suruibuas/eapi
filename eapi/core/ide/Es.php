@@ -31,7 +31,7 @@ namespace api;
  * @method static getMapping(string $name = '')
  * @method static putMapping(string $name = '', array $field = [])
  * @method static|Es select(string $field = '')
- * @method Es from(string $index = '')
+ * @method static|Es from(string $index = '')
  * @method Es where(array $where = [])
  * @method Es order(array $order = [])
  * @method Es limit(int $limit = 10, int $len = 0)

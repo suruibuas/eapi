@@ -153,10 +153,7 @@ final class Http{
             {
                 // 格式化POST提交的数据
                 foreach ($data as $key => $val)
-                {
-                    if (strlen($val) > 255)
-                        $data[$key] = '该文本超过255字节，不写入日志';
-                }
+                    if (strlen($val) > 255) $data[$key] = mb_substr($val, 0, 255, 'utf8');
             }
             // 保存HTTP请求返回值
             $response = $this->_response($result['body']);

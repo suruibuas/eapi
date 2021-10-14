@@ -506,12 +506,12 @@ function rmq(string|bool $exchange = '',
  * 输入 : 1个
  * @param string $index 索引名称
  *
- * 输出 : @return Es
+ * 输出 : @return Es|\eapi\lib\Es
  *
  * 历史 :
  *     2021/10/6 : created
  *********************************************************************************/
-function es(string $index = ''): Es
+function es(string $index = ''): Es|\eapi\lib\Es
 {
     return Es::from($index);
 }

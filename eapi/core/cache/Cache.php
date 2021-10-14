@@ -27,6 +27,7 @@
 namespace eapi;
 
 use api\Redis;
+use api\Log;
 use InvalidArgumentException;
 
 class Cache{
@@ -150,7 +151,9 @@ class Cache{
      * 历史 :
      *     2021/10/6 : created
      *****************************************************************************/
-    private function _file(string $key = '', mixed $val = '', int $time = 600): bool|string
+    private function _file(string $key = '',
+                           mixed $val = '',
+                           int $time = 600): bool|string
     {
         // 缓存目录
         if ($key == '') return FALSE;
@@ -174,7 +177,7 @@ class Cache{
             $cacheTime = $data[1];
             $etime     = microtime(TRUE);
             // 记录文件操作日志
-            \api\Log::add('FILE', [
+            Log::add('FILE', [
                 'KEY'  => $key,
                 'FILE' => $cache,
                 'TIME' => round($etime - $stime, 4),
@@ -199,12 +202,7 @@ class Cache{
             {
                 $data = [];
                 foreach ($val as $k => $v)
-                {
-                    if (strlen($v) > 255)
-                        $data[$k] = '该文本超过255字节，不写入日志';
-                    else
-                        $data[$k] = $v;
-                }
+                    $data[$k] = strlen($v) > 255 ? mb_substr($v, 0, 255, 'utf8') : $v;
                 $data = json_encode($data, JSON_UNESCAPED_UNICODE);
             }
             $logData = [
@@ -220,7 +218,7 @@ class Cache{
             $etime = microtime(TRUE);
             $logData['TIME'] = round($etime - $stime, 4);
             // 记录文件操作日志
-            \api\Log::add('FILE', $logData);
+            Log::add('FILE', $logData);
             return $cache;
         }
     }

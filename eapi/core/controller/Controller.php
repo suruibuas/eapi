@@ -26,6 +26,7 @@ namespace eapi;
 use eapi\Init as Init;
 use eapi\Middleware as Middleware;
 use eapi\Cli as Cli;
+use api\Conf;
 use ReflectionClass;
 use ReflectionException;
 
@@ -126,7 +127,7 @@ class Controller{
             ]);
         }
         // 合并项目内配置覆盖全局Conf.php的配置
-        \api\Conf::merge(require $appConfFile);
+        Conf::merge(require $appConfFile);
         // 没有开启路由则直接走pathinfo模式解析
         if ( ! conf('ROUTER'))
         {
