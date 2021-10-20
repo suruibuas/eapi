@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Log
- * @package api
+ * @package eapi
  * @method static save(string|array $data, string $path = 'default')
  * @method static add(string $name, array $data)
  * @method static set(string $name, array $data)

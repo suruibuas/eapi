@@ -517,29 +517,6 @@ function es(string $index = ''): Es|\eapi\lib\Es
 }
 
 /*********************************************************************************
- * model -- 加载模型类
- *
- *
- * 输入 : 1个
- * @param string $name 模型名称
- *
- * 输出 : Nothing
- *
- * 历史 :
- *     2021/10/6 : created
- *********************************************************************************/
-function model(string $name = '')
-{
-    $name = ucfirst($name);
-    if (isset($GLOBALS['_MODEL'][$name]))
-        return $GLOBALS['_MODEL'][$name];
-    $model = '\model\\'.$name;
-    $model = new $model();
-    $GLOBALS['_MODEL'][$name] = $model;
-    return $model;
-}
-
-/*********************************************************************************
  * formatTime -- 格式化时间为多久之前的模式
  *
  *

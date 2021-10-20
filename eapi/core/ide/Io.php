@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Io
- * @package api
+ * @package eapi
  * @method static post(string $key = '', string|bool $default = FALSE)
  * @method static get(string $key = '', string|bool $default = FALSE)
  * @method static header(string $key = '', string|bool $default = FALSE)

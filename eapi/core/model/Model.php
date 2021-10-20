@@ -75,7 +75,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function find(array|bool|int $cond = FALSE, array $param = [])
+    protected function find(array|bool|int $cond = FALSE, array $param = [])
     {
         if ( ! $cond)
         {
@@ -130,8 +130,11 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function first(array|bool|int $cond = FALSE, string $field = '')
+    protected function first(array|bool|int $cond = FALSE, string|array $field = '')
     {
+        $field = is_array($field)
+                    ? implode(',', $field)
+                    : $field;
         return $this->find($cond, [
             'field' => $field,
             'order' => $this->pk . ' ASC',
@@ -152,8 +155,11 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function last(array|bool|int $cond = FALSE, string $field = '')
+    protected function last(array|bool|int $cond = FALSE, string|array $field = '')
     {
+        $field = is_array($field)
+                    ? implode(',', $field)
+                    : $field;
         return $this->find($cond, [
             'field' => $field,
             'order' => $this->pk . ' DESC',
@@ -173,12 +179,13 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function count(array|bool|int $cond = FALSE)
+    protected function count(array|bool|int $cond = FALSE)
     {
-        return $this->find($cond, [
+        $data = $this->find($cond, [
             'field' => 'COUNT(' . $this->pk . ') AS count',
             'limit' => 1
         ]);
+        return $data['count'];
     }
 
     /*****************************************************************************
@@ -194,7 +201,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function sum(array|bool|int $cond = FALSE, string $field = '')
+    protected function sum(array|bool|int $cond = FALSE, string $field = '')
     {
         if ( ! $field) fail(2008);
         return $this->find($cond, [
@@ -216,7 +223,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function max(array|bool|int $cond = FALSE, string $field = '')
+    protected function max(array|bool|int $cond = FALSE, string $field = '')
     {
         if ( ! $field) fail(2008);
         return $this->find($cond, [
@@ -238,7 +245,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function min(array|bool|int $cond = FALSE, string $field = '')
+    protected function min(array|bool|int $cond = FALSE, string $field = '')
     {
         if ( ! $field) fail(2008);
         return $this->find($cond, [
@@ -259,7 +266,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function destory(array|int $id): bool|int
+    protected function destory(array|int $id): bool|int
     {
         if (is_numeric($id))
             $cond = [$this->pk => $id];
@@ -282,7 +289,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function insert(array $data = []): bool|int
+    protected function insert(array $data = []): bool|int
     {
         if ($this->timestamps) $data[$this->createAt] = time();
         return mysql($this->table)->add($data);
@@ -302,7 +309,7 @@ class Model
      *     2021/10/7 : created
      ***************************************************************************
      */
-    public function update(array|bool|int $cond = FALSE, array $data = []): bool|int
+    protected function update(array|bool|int $cond = FALSE, array $data = []): bool|int
     {
         if (is_numeric($cond)) $cond = [$this->pk => $cond];
         if ($this->timestamps) $data[$this->updateAt] = time();
@@ -324,7 +331,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function inc(array|bool|int $cond = FALSE, array $data = []): bool|int
+    protected function inc(array|bool|int $cond = FALSE, array $data = []): bool|int
     {
         $tmp = [];
         foreach ($data as $k => $v)
@@ -346,7 +353,7 @@ class Model
      * 历史 :
      *     2021/10/7 : created
      *****************************************************************************/
-    public function dec(array|bool|int $cond = FALSE, array $data = []): bool|int
+    protected function dec(array|bool|int $cond = FALSE, array $data = []): bool|int
     {
         $tmp = [];
         foreach ($data as $k => $v)
@@ -370,11 +377,51 @@ class Model
      *     2021/10/7 : created
      ***************************************************************************
      */
-    public function insertOrUpdate(array|bool|int $cond = FALSE,
+    protected function insertOrUpdate(array|bool|int $cond = FALSE,
                                    array $insert = [],
                                    array $update = []): mixed
     {
         return mysql($this->table)->where($cond)->replace($insert, $update);
+    }
+
+    /*****************************************************************************
+     * instance -- 获取实例
+     *
+     *
+     * 输入 : Nothing
+     *
+     * 输出 :
+     * @return static
+     *
+     * 历史 :
+     *     2021/10/20 : created
+     *****************************************************************************/
+    public static function instance(): static
+    {
+        $model = get_called_class();
+        if ( ! isset($GLOBALS['_MODEL'][$model]))
+            $GLOBALS['_MODEL'][$model] = new static;
+        return $GLOBALS['_MODEL'][$model];
+    }
+
+    /*****************************************************************************
+     * __callStatic -- 静态调用模型方法
+     *
+     *
+     * 输入 : 2个
+     * @param string $method
+     * @param mixed $args
+     *
+     * 输出 :
+     * @return mixed
+     *
+     * 历史 :
+     *     2021/10/7 : created
+     ***************************************************************************
+     */
+    public static function __callStatic(string $method, mixed $args)
+    {
+        return self::instance()->{$method}(...$args);
     }
 
 }

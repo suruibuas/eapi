@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Filter
- * @package api
+ * @package eapi
  * @method static check(string $content)
  * @method static badWord(string $content)
  * @method static replace(string $content, string $replace = '*', bool $samelen = TRUE)

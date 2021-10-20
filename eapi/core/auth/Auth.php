@@ -24,6 +24,7 @@
 namespace eapi;
 
 use api\Log;
+use Yac;
 
 class Auth{
 
@@ -123,8 +124,7 @@ class Auth{
             fail(10005, '鉴权失败');
         }
         // 判断是否是使用过的openkey
-        /*
-        $Yac = new \Yac();
+        $Yac = new Yac();
         if ($Yac->get($openkey) !== FALSE)
         {
             fail(10005, 'OPENKEY已过期');
@@ -133,7 +133,6 @@ class Auth{
         {
             $Yac->set($openkey, 1);
         }
-        */
         return TRUE;
     }
 

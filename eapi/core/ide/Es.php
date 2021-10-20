@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Es
- * @package api
+ * @package eapi
  * @method static createIndex(string $name = '', array $field = [], array $settings = [])
  * @method static deleteIndex(string $name = '')
  * @method static getMapping(string $name = '')

@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Mysql
- * @package api
+ * @package eapi
  * @method static|Mysql pk(string $pk = '')
  * @method static|Mysql select(string $field = '')
  * @method static|Mysql from(string $table)

@@ -127,14 +127,20 @@ class Io{
         $data['msg']  = $content['msg'] ?? '执行成功';
         $data['data'] = $content['data'] ?? [];
         // 记录通用信息日志
-        Log::set('COMMON', [
-            'URI'    => $GLOBALS['_RUNTIME']['URI'],
-            'METHOD' => _METHOD,
-            'CLIENT' => _CLIENT,
-            'IP'     => _IP,
-            'TIME'   => time(),
-            'TOTAL'  => round(microtime(TRUE) - $GLOBALS['_RUNTIME']['MICROTIME'], 4)
-        ]);
+        $common = [
+            'URI'     => $GLOBALS['_RUNTIME']['URI'],
+            'METHOD'  => _METHOD,
+            'CLIENT'  => _CLIENT,
+            'IP'      => _IP,
+            'TIME'    => time(),
+            'TOTAL'   => round(microtime(TRUE) - $GLOBALS['_RUNTIME']['MICROTIME'], 4)
+        ];
+        if (defined('_APP'))
+        {
+            $common['EXAMPLE'] = conf('EXAMPLE');
+            $common['ENV']     = (int) conf('ENV');
+        }
+        Log::set('COMMON', $common);
         if ($data['code'] != 100)
         {
             Log::set('ERROR', [

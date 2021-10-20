@@ -118,9 +118,10 @@ class Mysql{
      * 历史 :
      *     2021/10/8 : created
      *****************************************************************************/
-    public function select(string $field = ''): Mysql
+    public function select(array|string $field = ''): Mysql
     {
         $this->_bindData = [];
+        if (is_array($field)) $field = implode(',', $field);
         $this->_select = 'SELECT ' . ($field == '' ? '*' : $field);
         return $this;
     }
@@ -165,7 +166,14 @@ class Mysql{
         $i = 0;
         foreach ($where as $key => $val)
         {
-            $and = $i == 0 ? '' : (preg_match('/or/i', $key) ? '' : ' AND ');
+            if ($i == 0)
+            {
+                $and = '';
+            }
+            else
+            {
+                $and = preg_match('/ or/i', $key) ? '' : ' AND ';
+            }
             $this->_where .= $and . $key;
             /**
              * $val == FALSE的情况出现在key已经把条件拼接好了
@@ -365,16 +373,7 @@ class Mysql{
             $value .= ')';
             $this->_querySql .= $field . ' VALUES ' . $value;
             // 执行SQL
-            try {
-                $this->_exec();
-            }
-            catch (PDOException $exception)
-            {
-                $errorInfo = $exception->errorInfo;
-                $errorInfo['sql'] = $this->lastSql();
-                Log::save($errorInfo, 'mysql_error');
-                return FALSE;
-            }
+            $this->_exec();
             $etime = microtime(TRUE);
             Log::add('MYSQL', [
                 'SQL'  => $this->lastSql(),
@@ -436,17 +435,7 @@ class Mysql{
         }
         $this->_querySql .= $this->_where . $this->_limit;
         // 执行SQL
-        try {
-            $this->_exec();
-        }
-        catch (PDOException $exception)
-        {
-            $this->_where = '';
-            $errorInfo = $exception->errorInfo;
-            $errorInfo['sql'] = $this->lastSql();
-            Log::save($errorInfo, 'mysql_error');
-            return FALSE;
-        }
+        $this->_exec();
         $this->_where = '';
         $etime = microtime(TRUE);
         Log::add('MYSQL', [
@@ -472,17 +461,7 @@ class Mysql{
         $stime = microtime(TRUE);
         $this->_querySql  = 'DELETE FROM `' . $this->_table . '` ' . $this->_where;
         // 执行SQL
-        try {
-            $this->_exec();
-        }
-        catch (PDOException $exception)
-        {
-            $this->_where = '';
-            $errorInfo = $exception->errorInfo;
-            $errorInfo['sql'] = $this->lastSql();
-            Log::save($errorInfo, 'mysql_error');
-            return FALSE;
-        }
+        $this->_exec();
         $etime = microtime(TRUE);
         Log::add('MYSQL', [
             'SQL'  => $this->lastSql(),
@@ -716,11 +695,16 @@ class Mysql{
         // 获取真实SQL
         $this->_realSql = $this->_realSql();
         // 执行预查询
-        try{
-            $this->_result = $this->_conn->prepare($this->_querySql);
-        }
-        catch (PDOException $exception)
+        $this->_result = $this->_conn->prepare($this->_querySql);
+        // 占位符赋值
+        if ( ! empty($this->_bindData))
         {
+            foreach ($this->_bindData as $k => $v)
+                $this->_result->bindValue(($k + 1), $v, (is_int($v)) ? PDO::PARAM_INT : PDO::PARAM_STR);
+        }
+        try {
+            $this->_result->execute();
+        } catch (PDOException $exception){
             if ( ! _PHPCLI)
             {
                 fail(2004, [
@@ -732,13 +716,6 @@ class Mysql{
             $this->_linkDb();
             $this->_exec();
         }
-        // 占位符赋值
-        if ( ! empty($this->_bindData))
-        {
-            foreach ($this->_bindData as $k => $v)
-                $this->_result->bindValue(($k + 1), $v, (is_int($v)) ? PDO::PARAM_INT : PDO::PARAM_STR);
-        }
-        $this->_result->execute();
     }
 
     /*****************************************************************************

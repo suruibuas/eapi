@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Http
- * @package api
+ * @package eapi
  * @method static get(string $url, array $params = [])
  * @method static post(string $url, array $data = [], array $params = [], string $method = 'POST')
  * @method static put(string $url, array $data = [], array $params = [])

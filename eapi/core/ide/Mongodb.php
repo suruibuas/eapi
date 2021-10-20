@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Mongodb
- * @package api
+ * @package eapi
  * @method static|Mongodb select(string $field = '')
  * @method static|Mongodb from(string $table = '')
  * @method Mongodb where(array $where = [])

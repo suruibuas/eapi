@@ -30,7 +30,6 @@ final class Autoload{
     private static array $aliases = [
         'Router'        => 'eapi\Router',
         'api\Conf'      => 'eapi\facade\Conf',
-        'api\Rpc'       => 'eapi\facade\Rpc',
         'api\Log'       => 'eapi\facade\Log',
         'api\Http'      => 'eapi\facade\Http',
         'api\Io'        => 'eapi\facade\Io',
@@ -149,7 +148,7 @@ final class Autoload{
             return;
         }
         fail(1001, [
-            'file' => $realFile,
+            'file' => $class,
             'tip'  => '文件不存在，请检查'
         ]);
     }

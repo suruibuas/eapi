@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Upload
- * @package api
+ * @package eapi
  * @method static local(mixed $img)
  */
 class Upload{}

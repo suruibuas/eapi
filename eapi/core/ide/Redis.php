@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Redis
- * @package api
+ * @package eapi
  * @method static|Redis key(string $key = '', string $action = '', bool|string $prefix = '')
  * @method get(...$params)
  * @method set(...$params)

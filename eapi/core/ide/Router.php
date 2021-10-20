@@ -23,7 +23,7 @@
 
 /**
  * Class Router
- * @package api
+ * @package eapi
  * @method static group(array $preg, string $route, array $middleware = [])
  * @method static set(array $key, array $middleware = [])
  * @method static run(string $url, string $action)

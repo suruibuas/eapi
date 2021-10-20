@@ -51,15 +51,19 @@ class Cli {
         if (empty($data)) fail(2006);
         // 模型存放路径
         $path = _WORKPATH . '/' . _APP.'/model';
+        $i    = 0;
         foreach ($data as $row)
         {
             $table = str_replace($conf['PREFIX'], '', $row['TABLE_NAME']);
-            $file  = $path . '/' . ucfirst($table) . '.php';
+            $class = '';
+            $names = explode('_', $table);
+            foreach ($names as $name) $class .= ucfirst($name);
+            $file  = $path . '/' . $class . '.php';
             if (is_file($file)) continue;
             $content  = "<?php\r\n\r\n";
             $content .= "namespace model;\r\n";
-            $content .= "use eapi\Model;\r\n\r\n";
-            $content .= "class $table extends Model{\r\n\r\n";
+            $content .= "use eapi\\facade\Model;\r\n\r\n";
+            $content .= "class " . $class . " extends Model{\r\n\r\n";
             $content .= "    public function __construct()\r\n";
             $content .= "    {\r\n";
             $content .= "        parent::__construct();\r\n";
@@ -77,7 +81,9 @@ class Cli {
             $content .= "}";
             // 生成模型文件
             file_put_contents($file, $content);
+            $i++;
         }
+        echo '成功生成模型文件' . $i . '个。';
     }
 
 }

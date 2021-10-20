@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Rmq
- * @package api
+ * @package eapi
  * @method static|Rmq exchange(string $name = '', bool $delayed = FALSE, string $type = 'direct', bool $passive = FALSE, bool $durable = TRUE, bool $autoDelete = FALSE)
  * @method Rmq queue(string $name = '', bool $delayed = FALSE, bool $passive = FALSE, bool $durable = TRUE, bool $exclusive = FALSE, bool $autoDelete = FALSE)
  * @method Rmq bind(string $route = '')

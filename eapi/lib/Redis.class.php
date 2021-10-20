@@ -104,7 +104,9 @@ class Redis{
      * 历史 :
      *     2021/10/9 : created
      *****************************************************************************/
-    public function key(string|array $key = '', string $action = '', bool|string $prefix = FALSE): Redis
+    public function key(string|array $key = '',
+                        string $action = '',
+                        bool|string $prefix = FALSE): Redis
     {
         $prefix = ( ! $prefix) ? $this->_conf['PREFIX'] : $prefix;
         if (is_array($key))

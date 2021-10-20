@@ -272,7 +272,16 @@ class Controller{
     private function _getMiddleWareByDoc(string|bool $doc): void
     {
         if ($doc === FALSE) return;
-        preg_match_all('#@([befor|at]+) : (.*)#', $doc, $data);
+        preg_match_all('#@([befor|atmhd]+) : (.*)#', $doc, $data);
+        // 校验访问类型
+        $key = array_search('method', $data[1]);
+        if ($key !== FALSE)
+        {
+            $method = trim($data[2][$key]);
+            if ($method != strtolower(_METHOD))
+                fail(403, '不被允许的访问类型');
+            unset($data[1][$key]);
+        }
         if ( ! empty($data[1]))
         {
             foreach ($data[1] as $k => $v)

@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Mcq
- * @package api
+ * @package eapi
  * @method static get(string $key)
  * @method static set(string $key, string|int|array $val, int $expire = 0)
  * @method static del(string $key, int $timeout = 0)

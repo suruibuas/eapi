@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Conf
- * @package api
+ * @package eapi
  * @method static get(string $key = '')
  * @method static set(string $key, mixed $val)
  * @method static merge(array $conf)

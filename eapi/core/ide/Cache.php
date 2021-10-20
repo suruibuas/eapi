@@ -25,7 +25,7 @@ namespace api;
 
 /**
  * Class Cache
- * @package api
+ * @package eapi
  * @method static get(string $key = '')
  * @method static set(string $key = '', mixed $val = '', int|bool $time = FALSE)
  * @method static del(string $key = '')

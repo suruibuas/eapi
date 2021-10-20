@@ -29,6 +29,7 @@ return [
     'eapi\facade\Conf'       => 'core/facade/Conf.php',
     'eapi\Router'            => 'core/router/Router.php',
     'eapi\Model'             => 'core/model/Model.php',
+    'eapi\facade\Model'      => 'core/facade/Model.php',
     'eapi\Http'              => 'core/http/Http.php',
     'eapi\facade\Http'       => 'core/facade/Http.php',
     'eapi\Log'               => 'core/log/Log.php',
